@@ -1,0 +1,11 @@
+{
+  "rules": {
+    "no-unused-variable": false,
+    "await-promise": false,
+    "no-use-before-declare": false,
+    "return-undefined": false,
+    "no-unnecessary-qualifier": false,
+    "no-unnecessary-type-assertion": false,
+    "strict-type-predicates": false
+  }
+}

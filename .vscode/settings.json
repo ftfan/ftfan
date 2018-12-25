@@ -1,0 +1,16 @@
+{
+    "tslint.autoFixOnSave": true,
+    "files.exclude": {
+        "**/.git": true,
+        "**/*.js": true,
+        "**/*.js.map": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "dist/**": true,
+        ".gitmodules": true,
+        "package-lock.json": true,
+        "yarn.lock": true
+    },
+    "editor.tabSize": 2
+}
