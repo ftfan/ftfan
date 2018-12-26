@@ -12,7 +12,8 @@
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
-      "requirejs"
+      "echarts",
+      "node"
     ],
     "paths": {
       "@src/*": [
