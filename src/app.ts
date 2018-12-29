@@ -3,15 +3,14 @@ const main = document.getElementById('main') as HTMLDivElement;
 
 interface DataObj {
   Data: number[][];
-  Title: string;
   Key: string;
 }
 
 const DataArr: DataObj[] = [
-  { Data: [], Title: 'FT基准数量', Key: 'TotalBaselineFT' },
-  { Data: [], Title: '总折合BTC', Key: 'RevenuesEquivalentBTC' },
-  { Data: [], Title: '百万FT分红BTC', Key: 'Per100wFTBTC' },
-  { Data: [], Title: '时间抽', Key: 'DateTime' },
+  { Data: [], Key: 'FT基准数量' },
+  { Data: [], Key: '总分红折合BTC' },
+  { Data: [], Key: '百万FT分红折合BTC' },
+  { Data: [], Key: '日期' },
 ];
 
 const BaseKeys = DataArr.map(item => item.Key);
@@ -20,15 +19,15 @@ const DataY: { [index: string]: DataObj; } = {};
 DataArr.forEach(item => DataY[item.Key] = item);
 
 window.FCoinHistoryData.forEach(item => {
-  // DataX.push(item.DateTime);
-  DataY.TotalBaselineFT.Data.push([item.DateTime, item.TotalBaselineFT]);
-  DataY.RevenuesEquivalentBTC.Data.push([item.DateTime, item.RevenuesEquivalentBTC]);
-  DataY.Per100wFTBTC.Data.push([item.DateTime, item.Per100wFTBTC]);
-  DataY.DateTime.Data.push([item.DateTime, item.DateTime]);
+  // DataX.push(item['日期']);
+  DataY['FT基准数量'].Data.push([item['日期'], item['FT基准数量']]);
+  DataY['总分红折合BTC'].Data.push([item['日期'], item['总分红折合BTC']]);
+  DataY['百万FT分红折合BTC'].Data.push([item['日期'], item['百万FT分红折合BTC']]);
+  DataY['日期'].Data.push([item['日期'], item['日期']]);
   for (const key in item) {
     if (BaseKeys.indexOf(key) > -1) continue; // 上面已经赋值
-    DataY[key] = DataY[key] || { Data: [], Key: key, Title: `${key}分红` };
-    DataY[key].Data.push([item.DateTime, item[key]]);
+    DataY[key] = DataY[key] || { Data: [], Key: `${key}` };
+    DataY[key].Data.push([item['日期'], item[key]]);
   }
 });
 
@@ -40,7 +39,7 @@ const DateTimeRange = {
   End: query.End || '',
 };
 
-DataY.DateTime.Data.reverse();
+DataY['日期'].Data.reverse();
 const selectStart = document.createElement('select');
 const selectEnd = document.createElement('select');
 
@@ -56,7 +55,7 @@ if (!DateTimeRange.Begin && !DateTimeRange.End) {
 }
 console.log('DateTimeRange', DateTimeRange);
 
-DataY.DateTime.Data.forEach(item => {
+DataY['日期'].Data.forEach(item => {
   const val = item[0].toString();
   const optionStart = document.createElement('option');
   const optionEnd = document.createElement('option');
@@ -81,12 +80,12 @@ document.body.appendChild(selectEnd);
   const min = parseInt(DateTimeRange.Begin);
   const max = parseInt(DateTimeRange.End);
   for (const key in DataY) {
-    if (key === 'DateTime') continue;
+    if (key === '日期') continue;
     const el = document.createElement('div');
     const data = DataY[key];
     el.style.height = '400px';
     const h2 = document.createElement('h2');
-    h2.innerHTML = data.Title;
+    h2.innerHTML = data.Key;
     h2.style.width = '100%';
     const hr = document.createElement('hr');
     hr.style.width = '100%';
@@ -104,7 +103,7 @@ document.body.appendChild(selectEnd);
     document.body.appendChild(hr);
     const myChart = echarts.init(el);
     myChart.setOption({
-      legend: { data: [data.Title] },
+      legend: { data: [data.Key] },
       // toolbox: { feature: { saveAsImage: {} } },
       xAxis: [{
         type: 'category',
@@ -113,7 +112,7 @@ document.body.appendChild(selectEnd);
       }],
       yAxis: [{ type: 'value' }],
       series: [{
-        name: data.Title,
+        name: data.Key,
         type: 'line',
         stack: data.Key,
         itemStyle: { color: '#409eff' },

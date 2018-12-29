@@ -3,10 +3,10 @@ const Template = `
 interface Window {
   FCoinHistoryData: {
     [index: string]: number;
-    DateTime: number; // 期数
-    TotalBaselineFT: number; // 基数
-    RevenuesEquivalentBTC: number; // 折合BTC
-    Per100wFTBTC: number;
+    '日期': number; // 期数
+    'FT基准数量': number; // 基数
+    '总分红折合BTC': number; // 折合BTC
+    '百万FT分红折合BTC': number;
   }[];
 }
 window.FCoinHistoryData = __FCoinHistoryData__;
@@ -52,24 +52,24 @@ async function FeatchData (href) {
   if (check.length === 0) return;
   const bodydata = $('.article-content .article-body');
   const data = {
-    DateTime: parseFloat(FilterText(check.text().replace('收入分配-', '').replace('期', ''))),
-    TotalBaselineFT: parseFloat(FilterText(bodydata.find('.p1 strong').eq(0).text())),
-    RevenuesEquivalentBTC: parseFloat(FilterText(bodydata.find('p').eq(1).find('strong').eq(0).text())),
+    '日期': parseFloat(FilterText(check.text().replace('收入分配-', '').replace('期', ''))),
+    'FT基准数量': parseFloat(FilterText(bodydata.find('.p1 strong').eq(0).text())),
+    '总分红折合BTC': parseFloat(FilterText(bodydata.find('p').eq(1).find('strong').eq(0).text())),
   };
-  if (!data.TotalBaselineFT || !data.RevenuesEquivalentBTC) {
-    data.TotalBaselineFT = parseFloat(FilterText(bodydata.find('strong').eq(0).text().replace(/[a-zA-Z]*/igm, '')));
-    data.RevenuesEquivalentBTC = parseFloat(FilterText(bodydata.find('strong').eq(1).text().replace(/[a-zA-Z]*/igm, '')));
-    if (!data.RevenuesEquivalentBTC) data.RevenuesEquivalentBTC = parseFloat(FilterText(bodydata.find('.s1').text().replace(/[a-zA-Z]*/igm, '')));
-    if (!data.RevenuesEquivalentBTC) data.RevenuesEquivalentBTC = parseFloat(FilterText(bodydata.find('strong').eq(2).text().replace(/[a-zA-Z]*/igm, '')));
-    if (!data.RevenuesEquivalentBTC) debugger;
-    if (!data.TotalBaselineFT) debugger;
+  if (!data['FT基准数量'] || !data['总分红折合BTC']) {
+    data['FT基准数量'] = parseFloat(FilterText(bodydata.find('strong').eq(0).text().replace(/[a-zA-Z]*/igm, '')));
+    data['总分红折合BTC'] = parseFloat(FilterText(bodydata.find('strong').eq(1).text().replace(/[a-zA-Z]*/igm, '')));
+    if (!data['总分红折合BTC']) data['总分红折合BTC'] = parseFloat(FilterText(bodydata.find('.s1').text().replace(/[a-zA-Z]*/igm, '')));
+    if (!data['总分红折合BTC']) data['总分红折合BTC'] = parseFloat(FilterText(bodydata.find('strong').eq(2).text().replace(/[a-zA-Z]*/igm, '')));
+    if (!data['总分红折合BTC']) debugger;
+    if (!data['FT基准数量']) debugger;
   }
 
-  data.Per100wFTBTC = 1000000 * data.RevenuesEquivalentBTC / data.TotalBaselineFT;
+  data['百万FT分红折合BTC'] = 1000000 * data['总分红折合BTC'] / data['FT基准数量'];
   const trs = bodydata.find('tr');
   trs.each((index, tr) => {
     const tds = $(tr).find('td');
-    data[FilterText(tds.eq(0).text()).trim()] = parseFloat(FilterText(tds.eq(1).text()));
+    data['分红-' + FilterText(tds.eq(0).text()).trim()] = parseFloat(FilterText(tds.eq(1).text()));
   });
   return data;
 }
