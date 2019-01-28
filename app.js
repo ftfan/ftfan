@@ -82,7 +82,10 @@ async function FeatchData (href) {
     }
     const value = parseFloat(FilterText(tds.eq(1).text()));
     if (isNaN(value)) return;
-    data[['分红', groupName, name].join('-')] = value;
+    const names = ['分红'];
+    if (groupName) names.push(groupName);
+    names.push(name);
+    data[names.join('-')] = value;
   });
   return data;
 }
