@@ -67,9 +67,22 @@ async function FeatchData (href) {
 
   data['百万FT分红折合BTC'] = 1000000 * data['总分红折合BTC'] / data['FT基准数量'];
   const trs = bodydata.find('tr');
+
+  let groupName = '';
   trs.each((index, tr) => {
     const tds = $(tr).find('td');
-    data['分红-' + FilterText(tds.eq(0).text()).trim()] = parseFloat(FilterText(tds.eq(1).text()));
+    let name = FilterText(tds.eq(0).text()).trim();
+    if (name === 'FCoin') {
+      groupName = 'FCoin';
+      name = '折合BTC';
+    }
+    if (name === 'FCoinJP') {
+      groupName = 'FCoinJP';
+      name = '折合BTC';
+    }
+    const value = parseFloat(FilterText(tds.eq(1).text()));
+    if (isNaN(value)) return;
+    data[['分红', groupName, name].join('-')] = value;
   });
   return data;
 }
