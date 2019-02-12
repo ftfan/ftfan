@@ -13,23 +13,15 @@ window.FCoinHistoryData = __FCoinHistoryData__;
 `;
 
 const cheerio = require('cheerio');
-const axios = require('axios-https-proxy-fix');
+const axios = require('axios');
+// const axios = require('axios-https-proxy-fix');
 const fs = require('fs');
 const path = require('path');
-// const HttpsProxyAgent = require('https-proxy-agent');
 
-// const httpsAgent = new HttpsProxyAgent({
+// axios.defaults.proxy = {
 //   host: '127.0.0.1',
 //   port: 50002,
-//   secureProxy: true,
-// });
-
-// console.log(httpsAgent);
-// axios.defaults.httpsAgent = httpsAgent;
-axios.defaults.proxy = {
-  host: '127.0.0.1',
-  port: 50002,
-};
+// };
 
 const AllHref = [];
 const AllData = [];
