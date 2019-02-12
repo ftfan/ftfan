@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "axios-https-proxy-fix": "^0.17.1",
+    "https-proxy-agent": "^2.2.1",
     "node": "^11.5.0"
   },
   "devDependencies": {
