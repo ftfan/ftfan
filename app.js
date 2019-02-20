@@ -13,15 +13,15 @@ window.FCoinHistoryData = __FCoinHistoryData__;
 `;
 
 const cheerio = require('cheerio');
-const axios = require('axios');
-// const axios = require('axios-https-proxy-fix');
 const fs = require('fs');
 const path = require('path');
 
-// axios.defaults.proxy = {
-//   host: '127.0.0.1',
-//   port: 50002,
-// };
+// const axios = require('axios');
+const axios = require('axios-https-proxy-fix');
+axios.defaults.proxy = {
+  host: '127.0.0.1',
+  port: 50002,
+};
 
 const AllHref = [];
 const AllData = [];
